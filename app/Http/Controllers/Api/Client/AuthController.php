@@ -148,6 +148,8 @@ class AuthController extends Controller
         $rules =
             [
                 'name' => 'required|max:70',
+                'university' => 'required|max:70',
+                'college' => 'required|max:70',
                 'email' => 'required|email|unique:clients,email',
                 'phone' => 'required|unique:clients,phone|regex:/(01)[0-9]{9}/',
                 'password' => 'required|confirmed|min:6',
