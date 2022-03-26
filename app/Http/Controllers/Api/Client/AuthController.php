@@ -76,7 +76,6 @@ class AuthController extends Controller
         $model->pin_code = $pin_code;
 
         try{
-
             Mail::to($model->email)->send(new SendPinCode($model));
 
         }catch (\Exception $e){
@@ -116,17 +115,12 @@ class AuthController extends Controller
 
         if ($client) {
             if (Hash::check($request->password, $client->password)) {
-
                 // check user confirmation and activation
                 ///
                 if ($client->activation == 'pending') {
-
                     return Response::responseJson(2, Translation::trans('please confirm your account first'));
-
                 } elseif ($client->activation == 'deactivate') {
-
                     return Response::responseJson(0, Translation::trans('You have been banned from use. You can contact the administration'));
-
                 }
 
                 ///
@@ -372,17 +366,19 @@ class AuthController extends Controller
      */
     public function createToken(Request $request, $client)
     {
+
         if (!$client->token) {
             $client->token()->create(['token' => $request->token, 'os' => $request->os, 'serial_number' => $request->serial_number]);
 
-        }elseif($client->token->serial_number != $request->serial_number) {
-
-            return Response::responseJson(0, Translation::trans('you can\'t login with this device'));
-        }else{
-            $client->token()->update([
-                'token' => $request->token,
-            ]);
         }
+//        elseif($client->token->serial_number != $request->serial_number) {
+//            return Response::responseJson(0, Translation::trans('you can\'t login with this device'));
+//        }
+//        else{
+//            $client->token()->update([
+//                'token' => $request->token,
+//            ]);
+//        }
 
         //create passport token
         $token = $client->createToken('android')->accessToken;
