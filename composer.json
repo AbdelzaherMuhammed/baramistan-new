@@ -30,7 +30,6 @@
         "league/flysystem-aws-s3-v3": "~1.0",
         "mcamara/laravel-localization": "^1.6",
         "mostafasewidan/sewidan-field": "dev-master",
-        "nesbot/carbon": "^2.46",
         "nwidart/laravel-modules": "^8.2",
         "pbmedia/laravel-ffmpeg": "^7.5",
         "pion/laravel-chunk-upload": "^1.5",
