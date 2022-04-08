@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ClientResource;
 use App\Mail\SendPinCode;
 use Modules\Users\Entities\Client;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use \Illuminate\Support\Facades\Hash;
 use Helper\Response;
 use Helper\Translation;

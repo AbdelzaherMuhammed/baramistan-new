@@ -3,7 +3,7 @@
 namespace Modules\Doctors\Transformers\Dashboard;
 
 
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource as Resource;
 
 class DoctorResource extends Resource

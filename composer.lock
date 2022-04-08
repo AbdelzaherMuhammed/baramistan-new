@@ -142,7 +142,6 @@
             "require": {
                 "ext-json": "*",
                 "guzzlehttp/guzzle": "^6.3 || ^7.0",
-                "nesbot/carbon": "^1.26.3 || ^2.0",
                 "php": "^7.2.5 || ^8.0",
                 "predis/predis": "^1.1",
                 "ramsey/uuid": "^3.7 || ^4.0",

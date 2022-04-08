@@ -7,7 +7,7 @@ namespace Helper;
 use App\Models\Notification;
 use App\Models\Setting;
 use App\Models\Token;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 

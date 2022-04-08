@@ -2,7 +2,7 @@
 
 namespace Modules\Notifications\Transformers\Api;
 
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class NotificationResource extends JsonResource

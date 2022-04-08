@@ -4,7 +4,7 @@
 namespace Helper;
 
 
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use Mockery\Exception;

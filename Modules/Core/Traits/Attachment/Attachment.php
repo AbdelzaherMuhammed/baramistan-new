@@ -2,7 +2,7 @@
 
 namespace Modules\Core\Traits\Attachment;
 
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 
