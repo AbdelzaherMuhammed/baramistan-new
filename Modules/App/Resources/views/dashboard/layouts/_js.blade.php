@@ -7,7 +7,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.7.0/switchery.min.js"></script>
 <script src="{{asset('admin/js/app.js')}}"></script>
 <script src="{{asset('vendor/laravel-filemanager/js/single-stand-alone-button.js')}}"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
 		$(document).ready(function()
@@ -23,6 +23,7 @@
   $(document).ready(function() {
     $(".emojioneArea").emojioneArea();
   });
+  $('#video').dropify();
 </script>
 
 <style>

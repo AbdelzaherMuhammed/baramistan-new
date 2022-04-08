@@ -35,18 +35,16 @@ class VideoRepository extends CrudRepository
     {
 
         $data['order'] = $request->order ? $request->order : $this->model->count() + 1;
-        $data['type'] = 'video';
         unset($data['title']);
         unset($data['description']);
+        $latestVideo = $this->model->where('video_status', 'new_video')->first();
+
         return parent::prepareData($data, $request, $is_create);
     }
 
     public function modelCreated($model, $request, $is_created = true): void
     {
         $this->translateTable($model, $request);
-        $model->video_status = 'process';
-        $model->save();
-        ProcessVideo::dispatch($model)->onQueue('process_video');
         parent::modelCreated($model, $request, $is_created);
     }
 
@@ -68,7 +66,6 @@ class VideoRepository extends CrudRepository
         $this->translateTable($model, $request);
         $model->video_status = 'process';
         $model->save();
-        ProcessVideo::dispatch($model)->onQueue('process_video');
 
         parent::modelUpdated($model, $request);
     }

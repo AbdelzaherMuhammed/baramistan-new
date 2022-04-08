@@ -2,6 +2,7 @@
 
 namespace Modules\Courses\Http\Controllers\Dashboard;
 
+use FFMpeg\Media\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Modules\Core\Traits\Dashboard\CrudDashboardController;
@@ -12,6 +13,8 @@ use Modules\Courses\Entities\Lesson;
 use Modules\Courses\Http\Requests\Dashboard\ChapterRequest;
 use Modules\Courses\Transformers\Dashboard\ChapterResource;
 use Modules\Courses\Repositories\Dashboard\ChapterRepository;
+use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
+use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
 
 class VideoController extends Controller
 {
@@ -62,5 +65,48 @@ class VideoController extends Controller
         } catch (\PDOException $e) {
             return Response()->json([false, $e->errorInfo[2]]);
         }
+    }
+
+
+    public function storeCustomized()
+    {
+        $video = Lesson::where('type', 'video')->where('video_status', 'new_video')->first();
+        $video->update(\request()->all() + ['video_status' => 'processing']);
+    }
+
+
+    public function chunkUpload(Request $request)
+    {
+        $receiver = new FileReceiver('file', $request, HandlerFactory::classFromRequest($request));
+
+        if (!$receiver->isUploaded()) {
+            // file not uploaded
+        }
+        $fileReceived = $receiver->receive(); // receive file
+        if ($fileReceived->isFinished()) { // file uploading is complete / all chunks are uploaded
+            $file = $fileReceived->getFile(); // get file
+            $extension = $file->getClientOriginalExtension();
+            $fileName = '_' . md5(time()) . '.' . $extension; // a unique file name
+
+
+            $source = "storage/" . $file->store('videos', 'public');
+            Lesson::create([
+                'source' => $source,
+                'type' => 'video',
+                'video_status' => 'new_video',
+                'order' => $request->order ? $request->order : $this->model->count() + 1
+            ]);
+
+
+            // delete chunked file
+            unlink($file->getPathname());
+        }
+        // otherwise return percentage informatoin
+
+        $handler = $fileReceived->handler();
+        return [
+            'done' => $handler->getPercentageDone(),
+            'status' => true
+        ];
     }
 }

@@ -18,7 +18,7 @@ class VideoRequest extends FormRequest
                     'chapter_id' => 'required|exists:chapters,id',
                     'title.*' => 'required',
                     'description.*' => 'required',
-                    'video' => 'required|mimes:mp4,mov,ogg,qt',
+//                    'video' => 'required|mimes:mp4,mov,ogg,qt',
                 ];
 
             //handle updates
@@ -28,7 +28,7 @@ class VideoRequest extends FormRequest
                     'chapter_id' => 'required|exists:chapters,id',
                     'title.*' => 'required',
                     'description.*' => 'required',
-                    'video' => 'nullable|mimes:mp4,mov,ogg,qt',
+//                    'video' => 'nullable|mimes:mp4,mov,ogg,qt',
                 ];
         }
     }

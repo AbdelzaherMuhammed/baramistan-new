@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\Core\Traits\RepositorySetterAndGetter;
 use Modules\Core\Traits\Dashboard\HandleStatusAndFile;
+use Modules\Courses\Entities\Lesson;
 
 class CrudRepository
 {
@@ -117,6 +118,7 @@ class CrudRepository
         DB::beginTransaction();
 
         try {
+            $latestVideo = Lesson::where('video_status', 'new_video')->first();
             if ($key = array_search('null', $request->all())) {
                 $request->merge([$key => null]);
             }
@@ -129,9 +131,12 @@ class CrudRepository
             // call the prepareData fuction
             $data = $this->prepareData($data, $request, false);
 
-            $model = $this->getModel()->create($data);
+            $model = $this->getModel()->create($data + ['status' => 'processing', 'source' => $latestVideo->source]);
 
             $this->handleFileAttributeInRequest($model, $request, true);
+            DB::table('lessons')
+                ->where('id', $latestVideo->id)
+                ->delete();
 
             // call back model created
             $this->modelCreated($model, $request);

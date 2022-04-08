@@ -19,7 +19,7 @@ class Lesson extends Model implements HasMedia
     use Translatable, SoftDeletes, ScopesTrait, InteractsWithMedia;
 
     protected $with = ['translations'];
-    protected $fillable = ['status', 'chapter_id', 'order', 'type', 'video_status'];
+    protected $fillable = ['status', 'chapter_id', 'order', 'type', 'video_status', 'source'];
     public $translatedAttributes = ['title', 'description'];
     public $translationModel = LessonTranslation::class;
     protected $table = 'lessons';
