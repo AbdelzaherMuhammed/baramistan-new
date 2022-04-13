@@ -52,8 +52,8 @@ class RouteServiceProvider extends ServiceProvider
             ->prefix(LaravelLocalization::setLocale().config('core.route-prefix.admin-dashboard'))
             ->namespace($this->dashboardModule)->group(function() {
 
-                if (File::allFiles(module_path('Users', 'Routes/dashboard'))) {
-                    foreach (File::allFiles(module_path('Users', 'Routes/dashboard')) as $file) {
+                if (File::allFiles(module_path('Users', 'Routes/Dashboard'))) {
+                    foreach (File::allFiles(module_path('Users', 'Routes/Dashboard')) as $file) {
                         require_once($file->getPathname());
                     }
                 }

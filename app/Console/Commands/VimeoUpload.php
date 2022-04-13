@@ -62,16 +62,15 @@ class VimeoUpload extends Command
             $query->where('type', 'video')
                 ->where('video_status', 'in_progress')
                 ->orWhere('video_status', 'processing');
-        })->where('status', '!=', 'new_video')->get();
+        })->where('video_status', '!=', 'new_video')->get();
         foreach ($videos as $video) {
-            if ($video->status === 'complete') {
+            if ($video->video_status === 'complete') {
 
                 $video->update([
-                    'source' => $video->video_link,
-                    'status' => 'complete'
+                    'video_status' => 'complete'
                 ]);
             }
-            if ($video->status === 'in_progress') {
+            if ($video->video_status === 'in_progress') {
 
                 $response_status = $client->request($video->vimeo_url . '?fields=transcode.status');
 
@@ -80,16 +79,17 @@ class VimeoUpload extends Command
 
                 if ($status === 'complete') {
                     $video->update([
-                        'status' => 'complete',
+                        'video_status' => 'complete',
                     ]);
+                    unlink(public_path($video->source));
 
                 } elseif ($status === 'in_progress') {
                     $video->update([
-                        'status' => 'in_progress',
+                        'video_status' => 'in_progress',
                     ]);
                 } else {
                     $video->update([
-                        'status' => null,
+                        'video_status' => null,
                         'vimeo_url' => null
                     ]);
                 }
@@ -99,9 +99,6 @@ class VimeoUpload extends Command
                 $video_name = end($splitter);
 
                 $path = base_path("storage/app/public/videos/" . $video_name);
-                if ($video->type == 's3') {
-                    $path = base_path(env('AWS_BASE_PATH') . $video->source);
-                }
 
                 $uri = $client->upload($path, array(
                     "name" => $video->name,
@@ -114,9 +111,8 @@ class VimeoUpload extends Command
 
                 $video->update([
                     'vimeo_url' => $uri,
-                    'source' => $link,
                     'vimeo_id' => $vimeo_id,
-                    'status' => 'in_progress',
+                    'video_status' => 'in_progress',
                 ]);
 
                 $response_status = $client->request($uri . '?fields=transcode.status');
@@ -124,15 +120,15 @@ class VimeoUpload extends Command
 
                 if ($status === 'complete') {
                     $video->update([
-                        'status' => 'complete',
+                        'video_status' => 'complete',
                     ]);
                 } elseif ($status === 'in_progress') {
                     $video->update([
-                        'status' => 'in_progress',
+                        'video_status' => 'in_progress',
                     ]);
                 } else {
                     $video->update([
-                        'status' => null,
+                        'video_status' => null,
                         'vimeo_url' => null
                     ]);
                 }

@@ -131,7 +131,7 @@ class CrudRepository
             // call the prepareData fuction
             $data = $this->prepareData($data, $request, false);
 
-            $model = $this->getModel()->create($data + ['status' => 'processing', 'source' => $latestVideo->source]);
+            $model = $this->getModel()->create($data + ['video_status' => 'processing', 'source' => $latestVideo->source]);
 
             $this->handleFileAttributeInRequest($model, $request, true);
             DB::table('lessons')
