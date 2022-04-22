@@ -308,7 +308,9 @@ class AuthController extends Controller
     public function showProfile(Request $request)
     {
         $user = $request->user();
-
+        
+        
+        
         return Response::responseJson(1, Translation::trans('success'), ['token' => $request->bearerToken(), 'user' => new ClientResource($user)]);
 
     }

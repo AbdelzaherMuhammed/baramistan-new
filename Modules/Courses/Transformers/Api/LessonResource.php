@@ -38,15 +38,15 @@ class LessonResource extends JsonResource
                 'urls' => [
                     [
                         'quality' => '144',
-                        'url' => $mediaItem ? $url.$mediaItem->getCustomProperty('144', null) : null,
+                        'url' => $mediaItem ? $url.$mediaItem->getCustomProperty('144', null) : asset($this->source),
                     ],
                     [
                         'quality' => '480',
-                        'url' => $mediaItem ? $url.$mediaItem->getCustomProperty('480', null) : null,
+                        'url' => $mediaItem ? $url.$mediaItem->getCustomProperty('480', null) : asset($this->source),
                     ],
                     [
                         'quality' => '1080',
-                        'url' => $mediaItem ? $url.$mediaItem->getCustomProperty('1080', null) : null,
+                        'url' => $mediaItem ? $url.$mediaItem->getCustomProperty('1080', null) : asset($this->source),
                     ],
                 ],
                 'length' => '0:30',

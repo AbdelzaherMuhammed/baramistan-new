@@ -24,6 +24,7 @@ class ClientResource extends JsonResource
             'image'         => $this->getFirstMediaUrl('images') ?? null,
             'university'         => $this->university,
             'college'         => $this->name,
+            'image'         => $this->getMedia('images') ? $this->getMedia('images')[0]->getFullUrl() : null
         ];
     }
 }

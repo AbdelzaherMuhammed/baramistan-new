@@ -118,7 +118,7 @@ class CrudRepository
         DB::beginTransaction();
 
         try {
-            $latestVideo = Lesson::where('video_status', 'new_video')->first();
+            $latestVideo = Lesson::where('type', 'video')->where('video_status', 'process')->first();
             if ($key = array_search('null', $request->all())) {
                 $request->merge([$key => null]);
             }
@@ -130,13 +130,18 @@ class CrudRepository
             }
             // call the prepareData fuction
             $data = $this->prepareData($data, $request, false);
-
-            $model = $this->getModel()->create($data + ['video_status' => 'processing', 'source' => $latestVideo->source]);
-
-            $this->handleFileAttributeInRequest($model, $request, true);
-            DB::table('lessons')
+            
+            if($latestVideo) {
+                $model = $this->getModel()->create($data + ['video_status' => 'ready', 'source' => $latestVideo->source, 'status' => 1]);
+                  DB::table('lessons')
                 ->where('id', $latestVideo->id)
                 ->delete();
+            }
+            $data['status'] == 'on' ? 1 : $data['status'];
+            $model = $this->getModel()->create($data);
+
+            $this->handleFileAttributeInRequest($model, $request, true);
+          
 
             // call back model created
             $this->modelCreated($model, $request);

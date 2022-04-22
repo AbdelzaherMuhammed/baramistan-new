@@ -70,8 +70,8 @@ class VideoController extends Controller
 
     public function storeCustomized()
     {
-        $video = Lesson::where('type', 'video')->where('video_status', 'new_video')->first();
-        $video->update(\request()->all() + ['video_status' => 'processing']);
+        $video = Lesson::where('type', 'video')->where('video_status', 'ready')->first();
+        $video->update(\request()->all() + ['video_status' => 'ready']);
     }
 
 
@@ -93,7 +93,7 @@ class VideoController extends Controller
             Lesson::create([
                 'source' => $source,
                 'type' => 'video',
-                'video_status' => 'new_video',
+                'video_status' => 'process',
                 'order' => $request->order ? $request->order : $this->model->count() + 1
             ]);
 
